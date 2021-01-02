@@ -1,10 +1,15 @@
 <%- include('header') %>
-<main class="flex-shrink-0">
-    <div class="container">
-      <h1 class="mt-5">Sticky footer</h1>
-      <p class="lead">Pin a footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS.</p>
-      <p>Use <a href="/docs/5.0/examples/sticky-footer-navbar/">the sticky footer with a fixed navbar</a> if need be, too.</p>
+<main class="container">
+    <div class="text-center">
+        <h1>Odnajdź z nami swoją figurę ;)</h1>
     </div>
-  </main>
+    <div>
+        TODO SLIDER
+    </div>
+    <div>
+        <%- include('popular_products') %> <!-- Tutaj będziemy przekazywać dane, które otrzymamy od serwera. Tzn. serwer renderując home, będzie pobierał 
+            popularne z bazy, a tutaj przekarzemy je dalej do popular products, żeby nie robić tutaj pętli i zadbać o wielokrotny użytek kodu C: -->
+    </div>
+</main>
 </body>
 <%- include('footer') %>
