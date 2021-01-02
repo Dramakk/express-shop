@@ -11,6 +11,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({
     extended: true
 }));
+
 app.use(express.urlencoded({ extended: true }));
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 app.use('/styles', express.static(__dirname + '/views/styles/'));
