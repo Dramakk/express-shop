@@ -1,0 +1,26 @@
+{
+  "name": "express-shop",
+  "version": "1.0.0",
+  "description": "Przykladowy sklep internetowy przygotowany na potrzeby projektu z przedmiotu Wybrane Elementy Praktyki Programowania Obiektowego na Uniwersytecie Wroclawskim",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dramakk/express-shop.git"
+  },
+  "author": "Dawid Żywczak & Michał Zobniów",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dramakk/express-shop/issues"
+  },
+  "homepage": "https://github.com/Dramakk/express-shop#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "pg": "^8.5.1"
+  }
+}
