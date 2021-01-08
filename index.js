@@ -1,7 +1,7 @@
 var http = require('http');
 var express = require('express');
 var app = express();
-var serverUtlis = require('./lib/serverUtils');
+var serverUtils = require('./lib/serverUtils');
 var cookieParser = require('cookie-parser');
 
 app.set('view engine', 'ejs');
@@ -29,35 +29,52 @@ app.use(session({
     cookie: { maxAge : 1800 }
 }));
 
+var Pool = require('pg').Pool
+var pool = new Pool({
+  user: 'student',
+  host: 'localhost',
+  database: 'sklep',
+  password: '',
+  port: 5432,
+})
+
 app.get('/', (req, res) => {
-    serverUtlis.logConnection("Got connection... ", req.connection.remoteAddress);
-    res.render('home.ejs', {popularProducts: []});
+    serverUtils.logConnection("Got connection... ", req.connection.remoteAddress);
+
+    const NUM_POPULAR = 15
+
+    serverUtils.getPopularProducts(num_popular, pool, (error, results) => {
+        if (error) {
+            throw error;
+        }
+        res.render('home.ejs', { popularProducts: [num_popular, results] });
+    })
 });
 
 app.get('/list', (req, res) => {
-    serverUtlis.logConnection(`Accessing category: ${req.params.category} `, req.connection.remoteAddress);
+    serverUtils.logConnection(`Accessing category: ${req.params.category} `, req.connection.remoteAddress);
     res.render('products-list.ejs');
 });
 
 app.get('/list/:category', (req, res) => {
-    serverUtlis.logConnection(`Accessing category: ${req.params.category} `, req.connection.remoteAddress);    
-    res.render('products-list.ejs', {categoryName: serverUtlis.convertCategoryName(req.params.category)});
+    serverUtils.logConnection(`Accessing category: ${req.params.category} `, req.connection.remoteAddress);    
+    res.render('products-list.ejs', {categoryName: serverUtils.convertCategoryName(req.params.category)});
 });
 
 app.get('/products/:id', (req, res) => {
-    serverUtlis.logConnection(`Accessing product: ${req.params.id} `, req.connection.remoteAddress);
+    serverUtils.logConnection(`Accessing product: ${req.params.id} `, req.connection.remoteAddress);
     
     res.render('product-page.ejs', {productData: []});
 });
 
 app.get('/login', (req, res) => {
-    serverUtlis.logConnection("Accessing login page... ", req.connection.remoteAddress);
+    serverUtils.logConnection("Accessing login page... ", req.connection.remoteAddress);
     
     res.render('login.ejs');
 });
 
 app.get('/register', (req, res) => {
-    serverUtlis.logConnection("Accessing register page... ", req.connection.remoteAddress);
+    serverUtils.logConnection("Accessing register page... ", req.connection.remoteAddress);
     
     res.render('register.ejs');
 });
