@@ -1,40 +1,69 @@
 <%- include('header') %>
     <main class="container">
         <% if (locals.productData) { %>
-            <h1 class="text-center">Testowa nazwa</h1>
+            <h1 class="text-center item-name"><%= productData.itemname %></h1>
             <div class="row">
-                <div class="col-sm-5">
-                    <img class="img-fluid product-image" src="/images/cone.png" alt='stożek'>
+                <div class="col-sm-5 product-image-wrapper">
+                    <img class="img-fluid product-image" src="/images/<%= productData.picture %>.png" alt="<%= productData.itemname %>">
                 </div>
                 <div class="col-sm-7">
-                    <p><strong>CENA</strong></p>
                     <p class="lead product-description">
-                    OPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPIS
-                    OPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPIS
-                    OPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPIS
-                    OPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPISOPIS
+                        <%= productData.description %>
                     </p>
+                    <p><strong>Cena: <%= productData.price/100 %> zł</strong></p>
                     <div class="table-responsive">
                         <table class="table table-sm table-borderless mb-0">
                             <tbody>
                               <tr>
                                 <th class="pl-0 w-25" scope="row"><strong>Kategoria</strong></th>
-                                <td>Figury 3D</td>
+                                <td><%= productData.categoryName %></td>
                               </tr>
                               <tr>
                                 <th class="pl-0 w-25" scope="row"><strong>Kolor</strong></th>
-                                <td>Blue</td>
+                                <td style="text-transform: capitalize;"><%= productData.color %></td>
                               </tr>
                               <tr>
                                 <th class="pl-0 w-25" scope="row"><strong>Wymiary</strong></th>
-                                <td>2 x 2 x 2 (cm)</td>
+                                <td><%= productData.dimComposed %></td>
                               </tr>
                             </tbody>
                           </table>
                     </div>
-                    <a class="btn btn-dark category-button" href="/cart/add/1" role="button">Dodaj do koszyka</a>
+                    <a class="btn btn-dark category-button" href="/cart/add/<%= productData.id %>" role="button">Dodaj do koszyka</a>
                 </div>
             </div>
+            <% if (hasVariations) { %>
+            <h2 class="text-center" style="margin-top: 10px;">Sprawdź inne warianty tego produktu!</h2>
+            <div class="row">
+            <% for(var i = 0; i < variationsLength; i++){ %>
+                <% if(i % 4 === 0 && i !== 0){ %>
+                    </div><div class="row">
+                <% } %>
+                <div class="thumbnail col-lg-3">
+                <div class="product-image-wrapper">
+                <img class="img-fluid product-image" src="/images/<%= variations[i].picture %>.png" alt="<%= variations[i].itemname %>">
+                </div>
+                  <div class="caption text-center">
+                    <h4 class="item-name"><%= variations[i].itemname %></h4>
+                    <div class="table-responsive">
+                    <table class="table table-lg table-borderless mb-0">
+                        <tbody>
+                          <tr>
+                            <th class="pl-0 w-25" scope="row"><strong>Kolor</strong></th>
+                            <td style="text-transform: capitalize;"><%= variations[i].color %></td>
+                          </tr>
+                          <tr>
+                            <th class="pl-0 w-25" scope="row"><strong>Wymiary</strong></th>
+                            <td><%= variations[i].dimComposed %></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+                <a class="btn btn-dark category-button" href="/products/<%= variations[i].id %>" role="button">Sprawdź!</a>
+                </div></div>
+            <% } %>
+            </div>
+            <% } %>
         <% } else { %>
             <h1>Coś poszło nie tak, spróbuj ponownie później.</h1>
         <% } %>
