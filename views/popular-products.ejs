@@ -11,8 +11,8 @@
           <a href="/products/<%=popular[1][i*max_col + j].id%>">
           <img src = "/images/<%= popular[1][i*max_col + j].picture %>.png">
           </a>
-          <div> <%= popular[1][i*max_col + j].itemname %> </div>
-          <div> <%= popular[1][i*max_col + j].price / 100 %>zł </div>
+          <div> <h4 class="text-center"> <%= popular[1][i*max_col + j].itemname %> </h4></div>
+          <div> <h4 class="text-center"> <%= popular[1][i*max_col + j].price / 100 %> zł </h4></div>
         </div>
         <% } %>
       </div>

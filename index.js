@@ -41,7 +41,7 @@ var pool = new Pool({
 app.get('/', (req, res) => {
     serverUtils.logConnection("Got connection... ", req.connection.remoteAddress);
 
-    const num_popular = 15
+    const NUM_POPULAR = 15
 
     serverUtils.getPopularProducts(num_popular, pool, (error, results) => {
         if (error) {
