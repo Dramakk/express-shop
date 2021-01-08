@@ -1,15 +1,25 @@
 <%- include('header') %>
-<main class="container">
-    <div class="text-center">
-        <h1>Odnajdź z nami swoją figurę ;)</h1>
-    </div>
-    <div>
-        TODO SLIDER
-    </div>
-    <div>
-        <%- include('popular_products') %> <!-- Tutaj będziemy przekazywać dane, które otrzymamy od serwera. Tzn. serwer renderując home, będzie pobierał 
-            popularne z bazy, a tutaj przekarzemy je dalej do popular products, żeby nie robić tutaj pętli i zadbać o wielokrotny użytek kodu C: -->
-    </div>
-</main>
-</body>
-<%- include('footer') %>
+    <main class="container">
+        <div class="text-center">
+            <h1>Odnajdź z nami swoją figurę ;)</h1>
+        </div>
+        <div id="sliderMainPage" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div id="slider-1" class="carousel-item active">
+                    <img class="d-block w-100" src="/images/img1.png" alt="First slide">
+                </div>
+                <div id="slider-2" class="carousel-item">
+                    <img class="d-block w-100" src="/images/img2.png" alt="Second slide">
+                </div>
+                <div id="slider-3" class="carousel-item">
+                    <img class="d-block w-100" src="/images/img3.png" alt="Third slide">
+                </div>
+            </div>
+            </a>
+        </div>
+        <div>
+            <%- include('popular-products', {popular: popularProducts}) %>
+        </div>
+    </main>
+    </body>
+    <%- include('footer') %>

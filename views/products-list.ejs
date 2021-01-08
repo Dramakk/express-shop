@@ -1,0 +1,24 @@
+<%- include('header') %>
+    <main class="container">
+        <% if (locals.categoryName) { %>
+            <div class="text-center">
+                <h1><%= locals.categoryName %></h1>
+            </div>
+        <% } %>
+        <div class="row">
+            <div class="col-lg">
+                <a class="btn btn-dark category-button" href="/list/" role="button">Wszystkie produkty</a>
+              </div>
+              <div class="col-lg">
+                <a class="btn btn-dark category-button" href="/list/2dshapes" role="button">Figury 2D</a>
+              </div>
+              <div class="col-lg">
+                <a class="btn btn-dark category-button" href="/list/3dshapes" role="button">Figury 3D</a>
+              </div>
+              <div class="col-lg">
+                <a class="btn btn-dark category-button" href="/list/sets" role="button">Zestawy figur</a>
+              </div>
+        </div>
+    </main>
+</body>
+<%- include('footer') %>
