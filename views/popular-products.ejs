@@ -1,45 +1,21 @@
 <div class="container">
     <h1 class="text-center">Poznaj popularne produkty!</h1>
-    <div class="row">
-      <div class="col-sm">
-        One of three columns
-      </div>
-      <div class="col-sm">
-        One of three columns
-      </div>
-      <div class="col-sm">
-        One of three columns
-      </div>
-      <div class="col-sm">
-        One of three columns
-      </div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-          One of three columns
-        </div>
-        <div class="col-sm">
-          One of three columns
-        </div>
-        <div class="col-sm">
-          One of three columns
-        </div>
-        <div class="col-sm">
-          One of three columns
-        </div>
-      </div>
+    
+    <% var max_col = 4 %>
+    <% var max_row = Math.floor(popular[0] / 4) %>
+    <% for (var i = 0; i < max_row; i++ ) { %>
       <div class="row">
+        <% for (var j = 0; j < max_col; j++ ) { %>
         <div class="col-sm">
-          One of three columns
+          
+          <a href="/products/<%=popular[1][i*max_col + j].id%>">
+          <img src = "/images/<%= popular[1][i*max_col + j].picture %>.png">
+          </a>
+          <div> <%= popular[1][i*max_col + j].itemname %> </div>
+          <div> <%= popular[1][i*max_col + j].price / 100 %>zł </div>
         </div>
-        <div class="col-sm">
-          One of three columns
-        </div>
-        <div class="col-sm">
-          One of three columns
-        </div>
-        <div class="col-sm">
-          One of three columns
-        </div>
+        <% } %>
       </div>
+      <% } %>
+
 </div>
