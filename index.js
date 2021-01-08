@@ -32,7 +32,7 @@ app.use(session({
 
 var Pool = require('pg').Pool
 var pool = new Pool({
-  user: 'dramak',
+  user: 'student',
   host: 'localhost',
   database: 'sklep',
   password: '',
@@ -41,8 +41,16 @@ var pool = new Pool({
 
 app.get('/', (req, res) => {
     serverUtils.logConnection("Got connection... ", req.connection.remoteAddress);
+  
+    const NUM_POPULAR = 15
 
-    res.render('home.ejs', {popularProducts: []});
+    serverUtils.getPopularProducts(num_popular, pool, (error, results) => {
+        if (error) {
+            throw error;
+        }
+        res.render('home.ejs', { popularProducts: [num_popular, results] });
+    })
+
 });
 
 app.get('/list', (req, res) => {
@@ -65,6 +73,7 @@ app.get('/list/:category', (req, res) => {
 
 app.get('/products/:id', (req, res) => {
     serverUtils.logConnection(`Accessing product: ${req.params.id} `, req.connection.remoteAddress);
+
     serverUtils.getProductData(parseInt(req.params.id), pool, (error, result) => {
         if (error){
             throw(error);
