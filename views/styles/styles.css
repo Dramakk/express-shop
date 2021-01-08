@@ -6,14 +6,27 @@
     width: 100%;
 }
 
+.item-name{
+    text-transform: capitalize;
+}
+
 .product-description{
     overflow-wrap: break-word;
 }
 
 .product-image{
+    max-height: 300px;
+}
+
+.product-image-wrapper{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.thumbnail{
+    max-width: 250px;
+    margin-bottom: 20px;
 }
 
 .form-bttn{

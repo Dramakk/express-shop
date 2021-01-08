@@ -26,7 +26,8 @@ app.use(session({
     secret: "73D1B1B1BC1DABFB97F216D897B7968E44B06457920F00F2DC6C1ED3BE25AD4C",
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge : 1800 }
+    cookie: { maxAge : 1800 },
+    reapInterval: 60,
 }));
 
 var Pool = require('pg').Pool
@@ -40,7 +41,7 @@ var pool = new Pool({
 
 app.get('/', (req, res) => {
     serverUtils.logConnection("Got connection... ", req.connection.remoteAddress);
-
+  
     const NUM_POPULAR = 15
 
     serverUtils.getPopularProducts(num_popular, pool, (error, results) => {
@@ -49,6 +50,7 @@ app.get('/', (req, res) => {
         }
         res.render('home.ejs', { popularProducts: [num_popular, results] });
     })
+
 });
 
 app.get('/list', (req, res) => {
@@ -57,14 +59,47 @@ app.get('/list', (req, res) => {
 });
 
 app.get('/list/:category', (req, res) => {
-    serverUtils.logConnection(`Accessing category: ${req.params.category} `, req.connection.remoteAddress);    
-    res.render('products-list.ejs', {categoryName: serverUtils.convertCategoryName(req.params.category)});
+    serverUtils.logConnection(`Accessing category: ${req.params.category} `, req.connection.remoteAddress);
+    
+    let categoryName = serverUtils.convertCategoryName(req.params.category);
+
+    if(categoryName === -1){
+        res.redirect('/list/');
+    }
+    else{
+        res.render('products-list.ejs', {categoryName: serverUtils.convertCategoryName(req.params.category)});
+    }
 });
 
 app.get('/products/:id', (req, res) => {
     serverUtils.logConnection(`Accessing product: ${req.params.id} `, req.connection.remoteAddress);
-    
-    res.render('product-page.ejs', {productData: []});
+
+    serverUtils.getProductData(parseInt(req.params.id), pool, (error, result) => {
+        if (error){
+            throw(error);
+        }
+        if(result === -1){
+            res.redirect('/list/');
+        }
+        else{
+            if(result.variations){
+                res.render('product-page.ejs', {
+                    productData: result.productData, 
+                    variations: result.variations,
+                    hasVariations: true,
+                    variationsLength: Object.keys(result.variations).length
+                });
+            }
+            else{
+                res.render('product-page.ejs', {
+                    productData: result.productData, 
+                    variations: [],
+                    hasVariations: false,
+                    variationsLength: 0
+                });
+            }
+        }
+    })
 });
 
 app.get('/login', (req, res) => {
