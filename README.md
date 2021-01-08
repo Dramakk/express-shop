@@ -1,13 +1,19 @@
 # Online shop made for course at the University of Wroclaw
 
-## Functionalities
-TODO
+## Technologie
+* nodejs
+* postgresql
 
 ## Libraries
-* nodejs
+* ejs
+* ejs-lint
 * express
-
-TODO
+* express-session
+* cookie-parser
+* pg
+* bootstrap 5
+* jquery
+* seesion-file-store
 
 ## Status
 Project is: _inprogress_
