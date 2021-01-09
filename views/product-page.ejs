@@ -1,4 +1,4 @@
-<%- include('header') %>
+<%- include('header', {isUserLogged: isUserLogged}) %>
     <main class="container">
         <% if (locals.productData) { %>
             <h1 class="text-center item-name"><%= productData.itemname %></h1>
@@ -29,7 +29,11 @@
                             </tbody>
                           </table>
                     </div>
-                    <a class="btn btn-dark category-button" href="/cart/add/<%= productData.id %>" role="button">Dodaj do koszyka</a>
+                    <% if(isUserLogged) { %>
+                      <a class="btn btn-dark category-button" href="/cart/add/<%= productData.id %>" role="button">Dodaj do koszyka</a>
+                    <% } else { %>
+                      <a class="btn btn-dark category-button" href="/login" role="button">Zaloguj się, aby dodać produkty do koszyka</a>
+                    <% } %>
                 </div>
             </div>
             <% if (hasVariations) { %>

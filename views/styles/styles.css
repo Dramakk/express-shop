@@ -18,6 +18,13 @@
     max-height: 300px;
 }
 
+.popular-products-grid-item-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .product-image-wrapper{
     display: flex;
     justify-content: center;

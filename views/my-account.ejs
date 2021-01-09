@@ -1,12 +1,12 @@
-<%- include('header', {isUserLogged: isUserLogged}) %>
+<%- include('header') %>
     <main class="container">
-        <h1 class="text-center">Zarejestruj się już teraz!</h1>
+        <h1 class="text-center">Logowanie</h1>
         <% if (locals.error) { %>
             <div class="alert alert-danger text-center" role="alert">
                 <%= locals.error %>
             </div>
         <% } %>
-        <form action="/register/" method="POST">
+        <form action="/login/" method="POST">
             <div class="form-group">
               <label for="emailInput">Adres email</label>
               <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="Wprowadź adres email" name="email" required="true">
@@ -14,15 +14,10 @@
             <div class="form-group">
               <label for="passwordinput">Hasło</label>
               <input type="password" class="form-control" id="passwordinput" placeholder="Hasło" name="password" required="true">
-              <label for="passwordRepeat">Powtórz hasło</label>
-              <input type="password" class="form-control" id="passwordRepeat" placeholder="Powtórz hasło" name="passwordCheck" required="true">
             </div>
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="termsCheck" required="true">
-                <label class="form-check-label" for="termsCheck">Akceptuję postanowienia <a href="/terms" style="text-decoration: none;">regulaminu</a>.</label>
-              </div>
-            <button type="submit" class="btn btn-dark form-bttn">Zarejestruj się</button>
+            <button type="submit" class="btn btn-dark form-bttn">Zaloguj</button>
           </form>
+          <a class="btn btn-dark form-bttn" href="/register/" role="button">Zarejestruj się!</a>    
         </main>
 </body>
 <%- include('footer') %>

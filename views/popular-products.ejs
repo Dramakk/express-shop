@@ -1,18 +1,21 @@
 <div class="container">
-    <h1 class="text-center">Poznaj popularne produkty!</h1>
+    <h1 class="text-center" style="margin: 10px 0px 20px;">Poznaj popularne produkty!</h1>
     
     <% var max_col = 4 %>
     <% var max_row = Math.floor(popular[0] / 4) %>
     <% for (var i = 0; i < max_row; i++ ) { %>
       <div class="row">
         <% for (var j = 0; j < max_col; j++ ) { %>
-        <div class="col-sm">
-          
-          <a href="/products/<%=popular[1][i*max_col + j].id%>">
-          <img src = "/images/<%= popular[1][i*max_col + j].picture %>.png">
-          </a>
-          <div> <h4 class="text-center"> <%= popular[1][i*max_col + j].itemname %> </h4></div>
-          <div> <h4 class="text-center"> <%= popular[1][i*max_col + j].price / 100 %> zł </h4></div>
+        <div class="col-sm popular-products-grid-item-wrapper">
+          <div class="product-image-wrapper" style="margin: auto;">
+            <a href="/products/<%=popular[1][i*max_col + j].id%>">
+              <img class="img-fluid product-image" src="/images/<%= popular[1][i*max_col + j].picture %>.png">
+            </a>
+          </div>
+          <div> 
+            <h4 class="text-center item-name"> <%= popular[1][i*max_col + j].itemname %></h4>
+            <h4 class="text-center"> <%= popular[1][i*max_col + j].price / 100 %> zł </h4>
+          </div>
         </div>
         <% } %>
       </div>
