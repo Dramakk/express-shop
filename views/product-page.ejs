@@ -1,4 +1,4 @@
-<%- include('header') %>
+<%- include('header', {isUserLogged: isUserLogged}) %>
     <main class="container">
         <% if (locals.productData) { %>
             <h1 class="text-center item-name"><%= productData.itemname %></h1>
@@ -29,38 +29,30 @@
                             </tbody>
                           </table>
                     </div>
-                    <a class="btn btn-dark category-button" href="/cart/add/<%= productData.id %>" role="button">Dodaj do koszyka</a>
+                    <% if(isUserLogged) { %>
+                      <a class="btn btn-dark category-button" href="/cart/add/<%= productData.id %>" role="button">Dodaj do koszyka</a>
+                    <% } else { %>
+                      <a class="btn btn-dark category-button" href="/login" role="button">Zaloguj się, aby dodać produkty do koszyka</a>
+                    <% } %>
                 </div>
             </div>
             <% if (hasVariations) { %>
             <h2 class="text-center" style="margin-top: 10px;">Sprawdź inne warianty tego produktu!</h2>
             <div class="row">
-            <% for(var i = 0; i < variationsLength; i++){ %>
+            <% for(var i = 0; i < colorsLength; i++){ %>
                 <% if(i % 4 === 0 && i !== 0){ %>
                     </div><div class="row">
                 <% } %>
-                <div class="thumbnail col-lg-3">
-                <div class="product-image-wrapper">
-                <img class="img-fluid product-image" src="/images/<%= variations[i].picture %>.png" alt="<%= variations[i].itemname %>">
+                <div class="col-sm-3 variations-list">
+                  <h4 class="text-center item-name"><%= colors[i].color %></h4>
+                  <div style="max-height: 300px; overflow-x: hidden; overflow-y: auto;">
+                    <% variations[colors[i].color].forEach(function(variation){ %>
+                      <a class="btn btn-dark category-button" href="/products/<%= variation.id %>" role="button" style="margin-top: 10px;">
+                        <%= variation.dimComposed %>
+                      </a>
+                  </div>
+                  <% }); %>
                 </div>
-                  <div class="caption text-center">
-                    <h4 class="item-name"><%= variations[i].itemname %></h4>
-                    <div class="table-responsive">
-                    <table class="table table-lg table-borderless mb-0">
-                        <tbody>
-                          <tr>
-                            <th class="pl-0 w-25" scope="row"><strong>Kolor</strong></th>
-                            <td style="text-transform: capitalize;"><%= variations[i].color %></td>
-                          </tr>
-                          <tr>
-                            <th class="pl-0 w-25" scope="row"><strong>Wymiary</strong></th>
-                            <td><%= variations[i].dimComposed %></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                </div>
-                <a class="btn btn-dark category-button" href="/products/<%= variations[i].id %>" role="button">Sprawdź!</a>
-                </div></div>
             <% } %>
             </div>
             <% } %>

@@ -1,4 +1,4 @@
-<%- include('header') %>
+<%- include('header', {isUserLogged: isUserLogged}) %>
     <main class="container">
         <% if (locals.categoryName) { %>
             <div class="text-center">
