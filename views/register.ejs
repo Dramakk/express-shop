@@ -16,12 +16,15 @@
               <input type="password" class="form-control" id="passwordinput" placeholder="Hasło" name="password" required="true">
               <label for="passwordRepeat">Powtórz hasło</label>
               <input type="password" class="form-control" id="passwordRepeat" placeholder="Powtórz hasło" name="passwordCheck" required="true">
+              <div id="alertP" class="alert alert-danger text-center" role="alert" style="display: none;">
+                  
+              </div>
             </div>
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="termsCheck" required="true">
                 <label class="form-check-label" for="termsCheck">Akceptuję postanowienia <a href="/terms" style="text-decoration: none;">regulaminu</a>.</label>
               </div>
-            <button type="submit" class="btn btn-dark form-bttn">Zarejestruj się</button>
+            <button id="checkP" type="submit" class="btn btn-dark form-bttn">Zarejestruj się</button>
           </form>
         </main>
 </body>

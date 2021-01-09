@@ -18,6 +18,20 @@
     max-height: 300px;
 }
 
+.my-account-control{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.variations-list{
+    border: black 5px solid; 
+    padding: 10px; 
+    border-radius: 25px;
+    margin-left: 5px;
+}
+
 .popular-products-grid-item-wrapper{
     display: flex;
     flex-direction: column;
