@@ -117,17 +117,14 @@ module.exports = function (app, serverUtils, cookieParser, bcrypt, pool) {
         }
 
         serverUtils.changePassword(req, bcrypt, pool, (error, result) => {
-            if (result) {
-                serverUtils.logConnection(`User with id: ${req.session.userId} changed password `, req.connection.remoteAddress);
-                req.session.passwordChanged = 1;
-                req.session.save();
-            }
-            else {
-                serverUtils.logConnection(`User with id: ${req.session.userId} had problem with changing password `, req.connection.remoteAddress);
-                req.session.passwordChanged = 0;
-                req.session.save();
-            }
-            res.redirect('/my-account');
+            let status = result ? "success" : "fail";
+
+            serverUtils.logConnection(`User with id: ${req.session.userId} changed password with status: ${status} `, req.connection.remoteAddress);
+            req.session.passwordChanged = result;
+            req.session.save((error) => {
+                if(error) throw error;
+                res.redirect('/my-account');
+            });
         })
     });
 }
