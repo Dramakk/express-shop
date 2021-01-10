@@ -6,7 +6,7 @@
                 <%= locals.error %>
             </div>
         <% } %>
-        <form action="/register/" method="POST">
+        <form id="checkP" action="/register/" method="POST">
             <div class="form-group">
               <label for="emailInput">Adres email</label>
               <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="Wprowadź adres email" name="email" required="true">
@@ -16,7 +16,7 @@
               <input type="password" class="form-control" id="passwordinput" placeholder="Hasło" name="password" required="true">
               <label for="passwordRepeat">Powtórz hasło</label>
               <input type="password" class="form-control" id="passwordRepeat" placeholder="Powtórz hasło" name="passwordCheck" required="true">
-              <div id="alertP" class="alert alert-danger text-center" role="alert" style="display: none;">
+              <div id="alertP" class="alert alert-danger text-center" role="alert" style="display: none; margin-top: 10px;">
                   
               </div>
             </div>
