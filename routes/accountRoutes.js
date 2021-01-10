@@ -1,3 +1,5 @@
+const session = require("express-session");
+
 module.exports = function (app, serverUtils, cookieParser, bcrypt, pool) {
     //User authentication routes
     app.get('/my-account', (req, res) => {
@@ -117,6 +119,12 @@ module.exports = function (app, serverUtils, cookieParser, bcrypt, pool) {
         }
 
         serverUtils.changePassword(req, bcrypt, pool, (error, result) => {
+            if(result === -1){
+                req.session.destroy();
+                res.redirect('/');
+                return;
+            }
+
             let status = result ? "success" : "fail";
 
             serverUtils.logConnection(`User with id: ${req.session.userId} changed password with status: ${status} `, req.connection.remoteAddress);
