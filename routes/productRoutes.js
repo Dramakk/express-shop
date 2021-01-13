@@ -20,13 +20,16 @@ module.exports = function (app, serverUtils, cookieParser, bcrypt, pool) {
 
     app.get('/cart/add/:id', (req, res) => {
         serverUtils.logConnection(`Accessing category: ${req.params.category} `, req.connection.remoteAddress);
-        if (req.session.guest){
+        if (req.session.guest) {
             res.redirect('/');
         }
-        else{
+        else {
             serverUtils.addItemToCart(req.params.id, req.session.userId, pool, (error, result) => {
-                if (result===-1){
+                if (result === -1) {
                     res.redirect('/');
+                }
+                else{
+                    res.redirect('/')
                 }
             });
         }

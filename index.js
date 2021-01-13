@@ -8,11 +8,11 @@ var session = require('express-session');
 var FileStore = require('session-file-store')(session);
 var Pool = require('pg').Pool
 var pool = new Pool({
-  user: 'student',
-  host: 'localhost',
-  database: 'sklep',
-  password: '',
-  port: 5432,
+    user: 'student',
+    host: 'localhost',
+    database: 'sklep',
+    password: '',
+    port: 5432,
 })
 
 app.set('view engine', 'ejs');
@@ -44,7 +44,7 @@ require('./routes/productRoutes.js')(app, serverUtils, cookieParser, bcrypt, poo
 app.get('/', (req, res) => {
     serverUtils.logConnection("Got connection... ", req.connection.remoteAddress);
     //Create session on first connection and make user a guest
-    if(req.session.guest === undefined){
+    if (req.session.guest === undefined) {
         req.session.guest = 1;
         req.session.save();
     }
@@ -60,7 +60,7 @@ app.get('/', (req, res) => {
 });
 
 //Error 404
-app.get('*', function(req, res){
+app.get('*', function (req, res) {
     res.status(404).send('Podana strona nie istnieje!');
 });
 
