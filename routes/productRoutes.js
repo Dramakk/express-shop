@@ -29,7 +29,7 @@ module.exports = function (app, serverUtils, cookieParser, bcrypt, pool) {
                     res.redirect('/');
                 }
                 else{
-                    res.redirect('/')
+                    res.redirect('/cart')
                 }
             });
         }
