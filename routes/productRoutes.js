@@ -18,6 +18,24 @@ module.exports = function (app, serverUtils, cookieParser, bcrypt, pool) {
         }
     });
 
+    app.get('/cart/add/:id', (req, res) => {
+        serverUtils.logConnection(`Accessing category: ${req.params.category} `, req.connection.remoteAddress);
+        if (req.session.guest) {
+            res.redirect('/');
+        }
+        else {
+            serverUtils.addItemToCart(req.params.id, req.session.userId, pool, (error, result) => {
+                if (result === -1) {
+                    res.redirect('/');
+                }
+                else{
+                    res.redirect('/cart')
+                }
+            });
+        }
+    });
+
+
     //Products routes
     app.get('/products/:id', (req, res) => {
         serverUtils.logConnection(`Accessing product: ${req.params.id} `, req.connection.remoteAddress);
