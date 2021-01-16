@@ -1,6 +1,6 @@
 const session = require("express-session");
 
-module.exports = function (app, serverUtils, cookieParser, bcrypt, pool) {
+module.exports = function (app, serverUtils, userUtils, cookieParser, bcrypt, pool) {
     //User authentication routes
     app.get('/my-account', (req, res) => {
         if (req.session.guest) {
@@ -42,7 +42,7 @@ module.exports = function (app, serverUtils, cookieParser, bcrypt, pool) {
 
     app.post('/login', (req, res) => {
         serverUtils.logConnection("Trying to login... ", req.connection.remoteAddress);
-        serverUtils.loginClient(req.body, bcrypt, pool, (error, result) => {
+        userUtils.loginClient(req.body, bcrypt, pool, (error, result) => {
             if (result.validPassword === true) {
                 req.session.userId = result.userId;
                 req.session.logged = true;
@@ -73,7 +73,7 @@ module.exports = function (app, serverUtils, cookieParser, bcrypt, pool) {
     app.post('/register', (req, res) => {
         serverUtils.logConnection("Accessing register page... ", req.connection.remoteAddress);
 
-        serverUtils.registerClient(req.body, bcrypt, pool, (error, result) => {
+        userUtils.registerClient(req.body, bcrypt, pool, (error, result) => {
             if (result.userAlreadyExists === false) {
                 serverUtils.logConnection(`User with id: ${result.userId} has been registered `, req.connection.remoteAddress);
                 res.redirect('/login');
@@ -103,7 +103,7 @@ module.exports = function (app, serverUtils, cookieParser, bcrypt, pool) {
             return
         }
 
-        serverUtils.deleteAccount(req, bcrypt, pool, (error, result) => {
+        userUtils.deleteAccount(req, bcrypt, pool, (error, result) => {
             if (result) {
                 serverUtils.logConnection(`User with id: ${req.session.userId} deleted account `, req.connection.remoteAddress);
                 req.session.destroy();
@@ -118,7 +118,7 @@ module.exports = function (app, serverUtils, cookieParser, bcrypt, pool) {
             return
         }
 
-        serverUtils.changePassword(req, bcrypt, pool, (error, result) => {
+        userUtils.changePassword(req, bcrypt, pool, (error, result) => {
             if(result === -1){
                 req.session.destroy();
                 res.redirect('/');
