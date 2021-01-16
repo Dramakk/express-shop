@@ -1,0 +1,27 @@
+<%- include('header', {isUserLogged: isUserLogged}) %>
+    <main class="container">
+            <h1 class="text-center">Wyniki wyszukiwania</h1>
+            <div class="container">
+                <div class="row">    
+                <% for (var i = 0; i < searchResult.howManyItems; i++ ) { %>
+                    <% if(i !== 0 && i % 4 == 0) { %>
+                        </div>
+                        <div class="row">
+                    <% } %>
+                    <div class="col-md-3 popular-products-grid-item-wrapper">
+                      <div class="product-image-wrapper" style="margin: auto;">
+                        <a href="/products/<%=searchResult.items[i].id%>">
+                          <img class="img-fluid product-image" src="/images/<%= searchResult.items[i].picture %>.png">
+                        </a>
+                      </div>
+                      <div> 
+                        <h4 class="text-center item-name"> <%= searchResult.items[i].itemname %></h4>
+                        <h4 class="text-center"> <%= searchResult.items[i].price / 100 %> zł </h4>
+                      </div>
+                    </div>
+                    <% } %>
+                  </div>
+            </div>
+    </main>
+    </body>
+<%- include('footer') %>

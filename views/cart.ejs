@@ -1,0 +1,83 @@
+<%- include('header', {isUserLogged: true}) %>
+    <main class="container">
+        <h1 class="text-center">Twój koszyk</h1>
+        <% if(itemsInCart) { %>
+            <div class="row">
+                <div class="col-lg-8">
+                    <table class="table table-white">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Nazwa z linkiem</th>
+                                <td>Obrazek</td>
+                                <td>cena</td>
+                                <td>ile w koszyku</td>
+                                <td>przycisk do usuwania</td>
+                            </tr>
+                            Tak dla każdego produktu
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-4">
+                    <div>
+                        <h4 class="text-center">Podsumowanie</h4>
+                        <table class="table table-white">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Cena brutto</th>
+                                    <td>Cała wartość koszyka</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Cena netto</th>
+                                    <td>Wartość koszyka * 0.77</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="border: 0;">Razem do zapłaty</th>
+                                    <td style="border: 0;">To samo co w cenie brutto</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <h4 class="text-center">Adres wysyłki</h4>
+                    <form action="/cart/order" method="POST">
+                        <div class="form-group">
+                            <label for="nameInput">Imię i nazwisko</label>
+                            <input type="text" class="form-control" id="nameInput" placeholder="Imię i nazwisko" name="name" required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="streetInput">Ulica</label>
+                            <input type="text" class="form-control" id="streetInput" placeholder="Ulica" name="street" required="true">
+                        </div>
+                        <div class="form-row" style="display: flex;">
+                            <div class="form-group" style="width: 50%;">
+                                <label for="buildingNumber">Numer domu</label>
+                                <input type="text" class="form-control" id="buildingNumber" placeholder="Numer budynku"
+                                    name="buildingNumber" required="true">
+                            </div>
+                            <div class="form-group" style="width: 50%;">
+                                <label for="flatNumber">Numer lokalu</label>
+                                <input type="text" class="form-control" id="flatNumber" placeholder="Numer lokalu"
+                                    name="flatNumber" required="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">Miasto</label>
+                            <input type="text" class="form-control" id="city"
+                                placeholder="Miasto" name="city" required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="postalCode">Kod pocztowy</label>
+                            <input type="text" class="form-control" id="postalCode"
+                                placeholder="Kod pocztowy" name="postalCode" required="true">
+                        </div>
+                        <button type="submit" class="btn btn-dark form-bttn">Złóż zamówienie</button>
+                    </form>
+                </div>
+            </div>
+        <% } else { %>
+            <h4 class="text-center">
+                ... jest pusty :(
+            </h4>
+        <% } %>
+    </main>
+</body>
+<%- include('footer') %>

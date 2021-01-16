@@ -2,11 +2,15 @@ var http = require('http');
 var express = require('express');
 var app = express();
 var serverUtils = require('./lib/serverUtils');
+var cartUtils = require('./lib/cartUtils');
+var productUtils = require('./lib/productUtils');
+var userUtils = require('./lib/userUtils');
 var cookieParser = require('cookie-parser');
 var bcrypt = require('bcrypt');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
 var Pool = require('pg').Pool
+
 var pool = new Pool({
     user: 'student',
     host: 'localhost',
@@ -37,8 +41,8 @@ app.use(session({
 }));
 
 
-require('./routes/accountRoutes.js')(app, serverUtils, cookieParser, bcrypt, pool);
-require('./routes/productRoutes.js')(app, serverUtils, cookieParser, bcrypt, pool);
+require('./routes/accountRoutes.js')(app, serverUtils, userUtils, cookieParser, bcrypt, pool);
+require('./routes/productRoutes.js')(app, serverUtils, cartUtils, productUtils, cookieParser, bcrypt, pool);
 
 //Homepage
 app.get('/', (req, res) => {
@@ -48,16 +52,34 @@ app.get('/', (req, res) => {
         req.session.guest = 1;
         req.session.save();
     }
-
+    
     const NUM_POPULAR = 15
 
     serverUtils.getPopularProducts(NUM_POPULAR, pool, (error, results) => {
         if (error) {
             throw error;
         }
-        res.render('home.ejs', { popularProducts: [NUM_POPULAR, results], isUserLogged: !req.session.guest });
+        res.render('home.ejs', { popularProducts: [NUM_POPULAR, results, results.length], isUserLogged: !req.session.guest });
     })
 });
+
+app.get('/search', (req, res) => {
+    serverUtils.logConnection(`Searching for items with querry: ${req.query.searchString} `, req.connection.remoteAddress);
+
+    productUtils.searchForProducts(req.query.searchString, pool, (error, result) => {
+        if(error){
+            throw (error);
+        }
+        else{
+            if(req.query.isAjax){
+                res.send(result);
+            }
+            else{
+                res.render('search', {searchResult: {howManyItems: result.length, items: result}, isUserLogged: !req.session.guest});
+            }
+        }
+    });
+})
 
 //Error 404
 app.get('*', function (req, res) {
