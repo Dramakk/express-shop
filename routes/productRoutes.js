@@ -1,3 +1,6 @@
+const e = require("express");
+const { Callbacks } = require("jquery");
+
 module.exports = function (app, serverUtils, cartUtils, productUtils, cookieParser, bcrypt, pool) {
     //Category routes
     app.get('/list', (req, res) => {
@@ -5,7 +8,7 @@ module.exports = function (app, serverUtils, cartUtils, productUtils, cookiePars
 
         productUtils.getProductsByCategory(-1, pool, (error, result) => {
 
-            res.render('products-list.ejs', { isUserLogged: !req.session.guest, products: result});
+            res.render('products-list.ejs', { isUserLogged: !req.session.guest, products: result });
         });
     });
 
@@ -20,8 +23,8 @@ module.exports = function (app, serverUtils, cartUtils, productUtils, cookiePars
         else {
             productUtils.getProductsByCategory(req.params.category, pool, (error, result) => {
 
-                res.render('products-list.ejs', 
-                    { categoryName: categoryName , isUserLogged: !req.session.guest, products: result});
+                res.render('products-list.ejs',
+                    { categoryName: categoryName, isUserLogged: !req.session.guest, products: result });
             });
         }
     });
@@ -34,15 +37,21 @@ module.exports = function (app, serverUtils, cartUtils, productUtils, cookiePars
         else {
             serverUtils.logConnection(`Accessing cart for user: ${req.session.userId} `, req.connection.remoteAddress);
 
-            cartUtils.getCartFromDatabase(req.session.userId, pool, (error, result) =>{
-                if(error){
+            cartUtils.getCartFromDatabase(req.session.userId, pool, (error, result) => {
+                if (error) {
                     throw (error);
                 }
-
-                res.render('cart.ejs', {itemsInCart: result.orderedItems, valueOfOrder: result.valueOfOrder});
+                else {
+                    if (result.rows) {
+                        result.orderedItems.forEach((element, index) => {
+                            result.orderedItems[index] = productUtils.composeDimension(element);
+                        });
+                    }
+                    console.log
+                    res.render('cart.ejs', { itemsInCart: result.orderedItems, valueOfOrder: result.valueOfOrder });
+                }
             });
         }
-
     });
 
     app.get('/cart/add/:id', (req, res) => {
@@ -97,5 +106,36 @@ module.exports = function (app, serverUtils, cartUtils, productUtils, cookiePars
                 }
             }
         })
+    });
+
+    app.get('/delete/:id', (req, res) => {
+        serverUtils.logConnection(`Deleting product: ${req.params.id} `, req.connection.remoteAddress);
+        if (req.session.guest) {
+            res.redirect('/');
+        }
+        else {
+            cartUtils.deleteItemFromCart(req.params.id, req.session.userId, pool, (error, result) => {
+                if (result === -1) {
+                    res.redirect('/');
+                }
+                else {
+                    res.redirect('/cart');
+                }
+            });
+        }
+    });
+
+
+    app.post('/cart/order', function (req, res) {
+        serverUtils.logConnection(`Placing order for user: ${req.session.userId} `, req.connection.remoteAddress);
+
+        cartUtils.placeOrder(req.session.userId, req.body, pool, (error, result) => {
+            if (result === 1) {
+                res.redirect('/');
+            }
+            else {
+                res.redirect('/cart');
+            }
+        });
     });
 }
