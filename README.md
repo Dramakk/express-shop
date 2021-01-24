@@ -1,6 +1,6 @@
 # Online shop made for course at the University of Wroclaw
 
-## Technologie
+## Technologies
 * nodejs
 * postgresql
 
