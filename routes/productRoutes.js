@@ -2,7 +2,11 @@ module.exports = function (app, serverUtils, cartUtils, productUtils, cookiePars
     //Category routes
     app.get('/list', (req, res) => {
         serverUtils.logConnection(`Accessing category: ${req.params.category} `, req.connection.remoteAddress);
-        res.render('products-list.ejs', { isUserLogged: !req.session.guest });
+
+        productUtils.getProductsByCategory(-1, pool, (error, result) => {
+
+            res.render('products-list.ejs', { isUserLogged: !req.session.guest, products: result});
+        });
     });
 
     app.get('/list/:category', (req, res) => {
@@ -14,7 +18,11 @@ module.exports = function (app, serverUtils, cartUtils, productUtils, cookiePars
             res.redirect('/list/');
         }
         else {
-            res.render('products-list.ejs', { categoryName: serverUtils.convertCategoryName(req.params.category), isUserLogged: !req.session.guest });
+            productUtils.getProductsByCategory(req.params.category, pool, (error, result) => {
+
+                res.render('products-list.ejs', 
+                    { categoryName: categoryName , isUserLogged: !req.session.guest, products: result});
+            });
         }
     });
 
