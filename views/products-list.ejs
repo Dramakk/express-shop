@@ -19,6 +19,27 @@
                 <a class="btn btn-dark category-button" href="/list/sets" role="button">Zestawy figur</a>
               </div>
         </div>
+        <div class="container" style="margin-top: 10px;">
+          <div class="row">    
+           <% for (var i = 0; i < products.length; i++ ) { %>
+              <% if(i !== 0 && i % 4 == 0) { %>
+                  </div>
+                  <div class="row">
+              <% } %>
+              <div class="col-md-3 popular-products-grid-item-wrapper">
+                <div class="product-image-wrapper" style="margin: auto;">
+                  <a href="/products/<%=products[i].id%>">
+                    <img class="img-fluid product-image" src="/images/<%= products[i].picture %>.png">
+                  </a>
+                </div>
+                <div> 
+                  <h4 class="text-center item-name"> <%= products[i].itemname %></h4>
+                  <h4 class="text-center"> <%= products[i].price / 100 %> zł </h4>
+                </div>
+              </div>
+              <% } %>
+            </div>
+      </div>
     </main>
 </body>
 <%- include('footer') %>
