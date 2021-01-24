@@ -9,6 +9,8 @@
                             <tr>
                                 <th scope="row">Produkt</th>
                                 <td></td>
+                                <td> Kolor </td>
+                                <td> Rozmiar</td>
                                 <td> Cena</td>
                                 <td> Ilość </td>
                                 <td> </td>
@@ -19,9 +21,11 @@
                                     <a href="/products/<%=itemsInCart[i].itemid%>" style="text-transform: capitalize;"> <%=itemsInCart[i].itemname%></a>
                                 </th>
                                 <td><img class="img-fluid product-image" src="/images/<%= itemsInCart[i].picture %>.png"></td>
+                                <td><%= itemsInCart[i].color%> </td>
+                                <td><%= itemsInCart[i].dimComposed%> </td>
                                 <td><%= itemsInCart[i].price / 100%> zł%> </td>
                                 <td><%= itemsInCart[i].amount %> </td>
-                                <td><button type="submit" class="btn btn-dark form-bttn">Usuń Przedmiot</button></td>
+                                <td><a class="btn btn-dark category-button" href="/delete/<%=itemsInCart[i].id%>" role="button">Usuń Produkt</a></td>
                             </tr>
                             <% } %>
                         </tbody>
