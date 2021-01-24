@@ -30,7 +30,7 @@ module.exports = function (app, serverUtils, cartUtils, productUtils, cookiePars
                 if(error){
                     throw (error);
                 }
-
+                console.log(result.orderedItems)
                 res.render('cart.ejs', {itemsInCart: result.orderedItems, valueOfOrder: result.valueOfOrder});
             });
         }
