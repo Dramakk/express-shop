@@ -41,12 +41,15 @@ module.exports = function (app, serverUtils, cartUtils, productUtils, cookiePars
                 if (error) {
                     throw (error);
                 }
-
-                result.orderedItems.forEach((element, index) => {
-                    result.orderedItems[index] = productUtils.composeDimension(element);
-                });
-
-                res.render('cart.ejs', { itemsInCart: result.orderedItems, valueOfOrder: result.valueOfOrder });
+                else {
+                    if (result.rows) {
+                        result.orderedItems.forEach((element, index) => {
+                            result.orderedItems[index] = productUtils.composeDimension(element);
+                        });
+                    }
+                    console.log
+                    res.render('cart.ejs', { itemsInCart: result.orderedItems, valueOfOrder: result.valueOfOrder });
+                }
             });
         }
     });
@@ -120,5 +123,19 @@ module.exports = function (app, serverUtils, cartUtils, productUtils, cookiePars
                 }
             });
         }
+    });
+
+
+    app.post('/cart/order', function (req, res) {
+        serverUtils.logConnection(`Placing order for user: ${req.session.userId} `, req.connection.remoteAddress);
+
+        cartUtils.placeOrder(req.session.userId, req.body, pool, (error, result) => {
+            if (result === 1) {
+                res.redirect('/');
+            }
+            else {
+                res.redirect('/cart');
+            }
+        });
     });
 }

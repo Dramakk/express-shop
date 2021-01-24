@@ -1,7 +1,7 @@
 <%- include('header', {isUserLogged: true}) %>
     <main class="container">
         <h1 class="text-center">Twój koszyk</h1>
-        <% if(itemsInCart) { %>
+        <% if(itemsInCart && itemsInCart.length >= 1) { %>
             <div class="row">
                 <div class="col-lg-8">
                     <table class="table table-white">
@@ -83,7 +83,7 @@
                             <input type="text" class="form-control" id="postalCode"
                                 placeholder="Kod pocztowy" name="postalCode" required="true">
                         </div>
-                        <button type="submit" class="btn btn-dark form-bttn">Złóż zamówienie</button>
+                        <button type="submit" value="accept" class="btn btn-dark form-bttn">Złóż zamówienie</button>
                     </form>
                 </div>
             </div>
