@@ -1,10 +1,10 @@
 <%- include('header', {isUserLogged: true}) %>
-    <main class="container">
+    <main class="container" style="width: fit-content;">
         <h1 class="text-center">Twój koszyk</h1>
         <% if(itemsInCart && itemsInCart.length >= 1) { %>
             <div class="row">
                 <div class="col-lg-8">
-                    <table class="table table-white">
+                    <table class="table table-white" style="text-align: center; vertical-align: middle;">
                         <tbody>
                             <tr>
                                 <th scope="row">Produkt</th>
@@ -20,10 +20,10 @@
                                 <th scope="row">            
                                     <a href="/products/<%=itemsInCart[i].itemid%>" style="text-transform: capitalize;"> <%=itemsInCart[i].itemname%></a>
                                 </th>
-                                <td><img class="img-fluid product-image" src="/images/<%= itemsInCart[i].picture %>.png"></td>
+                                <td><img class="img-fluid product-image" style="max-height: 10rem;" src="/images/<%= itemsInCart[i].picture %>.png"></td>
                                 <td><%= itemsInCart[i].color%> </td>
-                                <td><%= itemsInCart[i].dimComposed%> </td>
-                                <td><%= itemsInCart[i].price / 100%> zł%> </td>
+                                <td><%= itemsInCart[i].dimComposed %> </td>
+                                <td><%= itemsInCart[i].price / 100%> zł %> </td>
                                 <td><%= itemsInCart[i].amount %> </td>
                                 <td><a class="btn btn-dark category-button" href="/delete/<%=itemsInCart[i].id%>" role="button">Usuń Produkt</a></td>
                             </tr>

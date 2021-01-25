@@ -1,0 +1,57 @@
+<%- include('head') %>
+<%- include('admin-navbar') %>
+        <body class="main-body">
+            <main class="container">
+                <h1 class="text-center">Witaj w panelu admina!</h1>
+                <div class="row text-center">
+                    <div class="col-lg">
+                        <h2 class="text-center">Ostatnie zamówienia</h2>
+                        <div class="row">
+                            <div class="col-lg">Status zamówienia</div>
+                            <div class="col-lg">Wartość zamówienia</div>
+                            <div class="col-lg"></div>
+                        </div>
+                        <% for(var i=0; i < lastOrders.length; i++){ %>
+                            <div class="row">
+                                <div class="col-lg">
+                                    <%= lastOrders[i].orderStatusConverted %>
+                                </div>
+                                <div class="col-lg">
+                                    <%= lastOrders[i].valueoforder / 100 %> zł
+                                </div>
+                                <div class="col-lg">
+                                    <a href="/admin/order/<%= lastOrders[i].id %>">Sprawdź zamówienie</a>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="row text-center" style="align-items: center; margin-top: 10px;">
+                    <div class="col-lg">
+                        <h2 class="text-center">Popularne produkty</h2>
+                        <div class="row">
+                            <div class="col-lg">Nazwa produktu</div>
+                            <div class="col-lg">Kolor</div>
+                            <div class="col-lg">Wymiary</div>
+                            <div class="col-lg">Ilość sztuk w zamówieniach</div>
+                            <div class="col-lg"></div>
+                        </div>
+                        <% for(var i=0; i < popularProducts.length; i++){ %>
+                            <div class="row">
+                                <div class="col-lg" style="text-transform: capitalize;">
+                                    <%= popularProducts[i].itemname %>
+                                </div>
+                                <div class="col-lg"><%= popularProducts[i].color %></div>
+                                <div class="col-lg"><%= popularProducts[i].dimComposed %></div>
+                                <div class="col-lg"><%= popularProducts[i].sum %></div>
+                                <div class="col-lg">
+                                    <a href="/admin/item/<%= popularProducts[i].id %>">Sprawdź produkt</a>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </main>
+        </body>
+
+</html>

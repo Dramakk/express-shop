@@ -42,12 +42,9 @@ module.exports = function (app, serverUtils, cartUtils, productUtils, cookiePars
                     throw (error);
                 }
                 else {
-                    if (result.rows) {
-                        result.orderedItems.forEach((element, index) => {
-                            result.orderedItems[index] = productUtils.composeDimension(element);
-                        });
-                    }
-                    console.log
+                    result.orderedItems.forEach((element, index) => {
+                        result.orderedItems[index] = productUtils.composeDimension(element);
+                    });
                     res.render('cart.ejs', { itemsInCart: result.orderedItems, valueOfOrder: result.valueOfOrder });
                 }
             });

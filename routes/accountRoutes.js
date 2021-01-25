@@ -1,5 +1,3 @@
-const session = require("express-session");
-
 module.exports = function (app, serverUtils, userUtils, cookieParser, bcrypt, pool) {
     //User authentication routes
     app.get('/my-account', (req, res) => {
@@ -47,7 +45,8 @@ module.exports = function (app, serverUtils, userUtils, cookieParser, bcrypt, po
                 req.session.userId = result.userId;
                 req.session.logged = true;
                 req.session.guest = 0;
-
+                req.session.isAdmin = false;
+                
                 req.session.save((error) => {
                     if (error) {
                         throw error;

@@ -5,6 +5,7 @@ var serverUtils = require('./lib/serverUtils');
 var cartUtils = require('./lib/cartUtils');
 var productUtils = require('./lib/productUtils');
 var userUtils = require('./lib/userUtils');
+var adminUtils = require('./lib/adminUtils');
 var cookieParser = require('cookie-parser');
 var bcrypt = require('bcrypt');
 var session = require('express-session');
@@ -43,6 +44,7 @@ app.use(session({
 
 require('./routes/accountRoutes.js')(app, serverUtils, userUtils, cookieParser, bcrypt, pool);
 require('./routes/productRoutes.js')(app, serverUtils, cartUtils, productUtils, cookieParser, bcrypt, pool);
+require('./routes/adminRoutes')(app, serverUtils, userUtils, adminUtils, productUtils, cookieParser, bcrypt, pool);
 
 //Homepage
 app.get('/', (req, res) => {
