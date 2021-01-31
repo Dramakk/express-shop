@@ -1,4 +1,5 @@
 var http = require('http');
+var port = process.env.PORT || 3000;
 var express = require('express');
 var app = express();
 var serverUtils = require('./lib/serverUtils');
@@ -92,4 +93,4 @@ app.get('*', function (req, res) {
     res.status(404).send('Podana strona nie istnieje!');
 });
 
-http.createServer(app).listen(3000);
+http.createServer(app).listen(port);
