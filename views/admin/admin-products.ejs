@@ -1,0 +1,33 @@
+<%- include('../head') %>
+<%- include('admin-navbar') %>
+<body class="main-body">
+    <main class="container">
+        <div class="row text-center" style="align-items: center; margin-top: 10px; margin-bottom: 10px;">
+            <div class="col-lg">
+                <h2 class="text-center">Lista produktów</h2>
+                <a class="btn btn-dark" href="/admin/products/create" role="button">Dodaj nowy produkt</a>
+                <div class="row">
+                    <div class="col-lg">Nazwa produktu</div>
+                    <div class="col-lg">Kolor</div>
+                    <div class="col-lg">Wymiary</div>
+                    <div class="col-lg"></div>
+                    <div class="col-lg"></div>
+                </div>
+                <% for(var i=0; i < products.length; i++){ %>
+                    <div class="row" style="border: 1px black solid; align-items: center;">
+                        <div class="col-lg" style="text-transform: capitalize;">
+                            <%= products[i].itemname %>
+                        </div>
+                        <div class="col-lg"><%= products[i].color %></div>
+                        <div class="col-lg"><%= products[i].dimComposed %></div>
+                        <div class="col-lg">                            
+                            <a href="/admin/products/delete/<%= products[i].id %>">Usuń produkt</a>
+                        </div>
+                        <div class="col-lg">
+                            <a href="/admin/products/<%= products[i].id %>">Edytuj produkt</a>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+    </main>
+</body>

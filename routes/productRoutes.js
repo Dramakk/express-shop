@@ -41,6 +41,9 @@ module.exports = function (app, serverUtils, cartUtils, productUtils, cookiePars
                 if (error) {
                     throw (error);
                 }
+                else if (result === -1){
+                    res.render('cart.ejs', { itemsInCart: [], valueOfOrder: 0 });
+                }
                 else {
                     result.orderedItems.forEach((element, index) => {
                         result.orderedItems[index] = productUtils.composeDimension(element);

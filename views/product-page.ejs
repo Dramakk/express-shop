@@ -29,7 +29,9 @@
                             </tbody>
                           </table>
                     </div>
-                    <% if(isUserLogged) { %>
+                    <% if (productData.isdeleted) { %>
+                      <a class="btn btn-dark category-button" href="#" role="button">Produkt archiwalny</a>
+                    <% } else if(isUserLogged) { %>
                       <a class="btn btn-dark category-button" href="/cart/add/<%= productData.id %>" role="button">Dodaj do koszyka</a>
                     <% } else { %>
                       <a class="btn btn-dark category-button" href="/login" role="button">Zaloguj się, aby dodać produkty do koszyka</a>

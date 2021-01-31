@@ -1,4 +1,4 @@
-<%- include('head') %>
+<%- include('../head') %>
 <%- include('admin-navbar') %>
         <body class="main-body">
             <main class="container">
@@ -45,7 +45,7 @@
                                 <div class="col-lg"><%= popularProducts[i].dimComposed %></div>
                                 <div class="col-lg"><%= popularProducts[i].sum %></div>
                                 <div class="col-lg">
-                                    <a href="/admin/item/<%= popularProducts[i].id %>">Sprawdź produkt</a>
+                                    <a href="/admin/products/<%= popularProducts[i].id %>">Sprawdź produkt</a>
                                 </div>
                             </div>
                         <% } %>
