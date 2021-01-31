@@ -1,5 +1,3 @@
-const session = require("express-session");
-
 module.exports = function (app, serverUtils, userUtils, cookieParser, bcrypt, pool) {
     //User authentication routes
     app.get('/my-account', (req, res) => {
@@ -8,18 +6,20 @@ module.exports = function (app, serverUtils, userUtils, cookieParser, bcrypt, po
             return
         }
 
-        bcrypt.genSalt(10, (error, salt) => {
-            bcrypt.hash(toString(req.session.userId), salt, (error, hash) => {
-                let changePasswordAlert = req.session.passwordChanged;
+        userUtils.getOrders(4, req.session.userId, pool, (error, orders) => {
+            bcrypt.genSalt(10, (error, salt) => {
+                bcrypt.hash(toString(req.session.userId), salt, (error, hash) => {
+                    let changePasswordAlert = req.session.passwordChanged;
 
-                if (changePasswordAlert === 0 || changePasswordAlert === 1) {
-                    res.render('my-account', { currentUser: hash, changePasswordAlert: changePasswordAlert });
-                    delete req.session.passwordChanged;
-                    req.session.save();
-                }
-                else {
-                    res.render('my-account', { currentUser: hash, changePasswordAlert: -1 });
-                }
+                    if (changePasswordAlert === 0 || changePasswordAlert === 1) {
+                        res.render('my-account', { currentUser: hash, changePasswordAlert: changePasswordAlert, orders: orders.orders });
+                        delete req.session.passwordChanged;
+                        req.session.save();
+                    }
+                    else {
+                        res.render('my-account', { currentUser: hash, changePasswordAlert: -1, orders: orders.orders });
+                    }
+                });
             });
         });
     });
@@ -47,6 +47,7 @@ module.exports = function (app, serverUtils, userUtils, cookieParser, bcrypt, po
                 req.session.userId = result.userId;
                 req.session.logged = true;
                 req.session.guest = 0;
+                req.session.isAdmin = false;
 
                 req.session.save((error) => {
                     if (error) {
@@ -119,7 +120,7 @@ module.exports = function (app, serverUtils, userUtils, cookieParser, bcrypt, po
         }
 
         userUtils.changePassword(req, bcrypt, pool, (error, result) => {
-            if(result === -1){
+            if (result === -1) {
                 req.session.destroy();
                 res.redirect('/');
                 return;
@@ -130,7 +131,7 @@ module.exports = function (app, serverUtils, userUtils, cookieParser, bcrypt, po
             serverUtils.logConnection(`User with id: ${req.session.userId} changed password with status: ${status} `, req.connection.remoteAddress);
             req.session.passwordChanged = result;
             req.session.save((error) => {
-                if(error) throw error;
+                if (error) throw error;
                 res.redirect('/my-account');
             });
         })

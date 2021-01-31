@@ -1,0 +1,57 @@
+<%- include('../head') %>
+<%- include('admin-navbar') %>
+<body class="main-body">
+    <main class="container">
+        <div class="row text-center" style="align-items: center; margin-top: 10px; margin-bottom: 10px;">
+            <div class="col-lg">
+                <h2 class="text-center">Lista zamówień</h2>
+                <div class="row">
+                    <div class="col-lg">
+                        <a class="btn btn-dark category-button" href="/admin/orders/4" role="button">Wszystkie zamówiena</a>
+                      </div>
+                      <div class="col-lg">
+                        <a class="btn btn-dark category-button" href="/admin/orders/0" role="button">Koszyki</a>
+                      </div>
+                      <div class="col-lg">
+                        <a class="btn btn-dark category-button" href="/admin/orders/1" role="button">Zamówione</a>
+                      </div>
+                      <div class="col-lg">
+                        <a class="btn btn-dark category-button" href="/admin/orders/2" role="button">Zapłacone</a>
+                      </div>
+                      <div class="col-lg">
+                        <a class="btn btn-dark category-button" href="/admin/orders/3" role="button">Wysłane</a>
+                      </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg">Id użytkownika</div>
+                    <div class="col-lg">Kwota zamówienia</div>
+                    <div class="col-lg">Status zamówienia</div>
+                    <div class="col-lg">Adres</div>
+                    <div class="col-lg">Zmień status</div>
+                    <div class="col-lg">Zmień status</div>
+                </div>
+                <% for(var i=0; i < orders.length; i++){ %>
+                    <div class="row" style="border: 1px black solid; align-items: center;">
+                        <div class="col-lg">
+                            <%= orders[i].userid %>
+                        </div>
+                        <div class="col-lg"><%= orders[i].valueoforder %></div>
+                        <div class="col-lg"><%= orders[i].readableStatus %></div>
+                        <% if(orders[i].orderstatus !== 0) { %>
+                        <div class="col-lg">                            
+                            <%= orders[i].namesurname %></br>
+                            <%= orders[i].street %> <%= orders[i].buildingnumber %>/<%= orders[i].flatnumber %></br>
+                            <%= orders[i].postalcode %> <%= orders[i].city %>
+                        </div>
+                        <% } else { %>
+                            <div class="col-lg">
+                                Brak adresu w przypadku koszyka
+                            </div>
+                        <% } %>
+                        <div class="col-lg"><a href="/admin/orders/change/2/<%= orders[i].id %>">Zapłacone</a></div>
+                        <div class="col-lg"><a href="/admin/orders/change/3/<%= orders[i].id %>">Wysłane</a></div>
+                    </div>
+                <% } %>
+            </div>
+    </main>
+</body>

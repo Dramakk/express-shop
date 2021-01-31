@@ -41,13 +41,13 @@ module.exports = function (app, serverUtils, cartUtils, productUtils, cookiePars
                 if (error) {
                     throw (error);
                 }
+                else if (result === -1){
+                    res.render('cart.ejs', { itemsInCart: [], valueOfOrder: 0 });
+                }
                 else {
-                    if (result.rows) {
-                        result.orderedItems.forEach((element, index) => {
-                            result.orderedItems[index] = productUtils.composeDimension(element);
-                        });
-                    }
-                    console.log
+                    result.orderedItems.forEach((element, index) => {
+                        result.orderedItems[index] = productUtils.composeDimension(element);
+                    });
                     res.render('cart.ejs', { itemsInCart: result.orderedItems, valueOfOrder: result.valueOfOrder });
                 }
             });

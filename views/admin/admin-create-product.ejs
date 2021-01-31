@@ -1,0 +1,62 @@
+<%- include('../head') %>
+    <%- include('admin-navbar') %>
+
+        <body class="main-body" style="margin-bottom: 10px;">
+            <main class="container">
+                <h1 class="text-center">Dodawanie nowego produktu</h1>
+                <h4 class="text-center">Produkty są grupowane po nazwie, dlatego jeśli chcesz stworzyć konfigurację
+                    jakiegoś produktu, muszą one posiadać tę samą nazwę (sugerujemy nazwy pisane małą literą, zostaną one poprawnie wyświetlone).</h4>
+                <% if (locals.error) { %>
+                    <div class="alert alert-danger text-center" role="alert">
+                        <%= locals.error %>
+                    </div>
+                <% } %>
+                <form action="/admin/products/create" enctype="multipart/form-data" method="POST" id="product-creation">
+                    <div class="form-group">
+                        <label for="nameInput">Nazwa</label>
+                        <input type="text" class="form-control" id="nameInput"
+                            placeholder="Nazwa produktu" name="itemname" required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="descriptionInput">Opis</label>
+                        <textarea class="form-control" id="descriptionInput" rows="5" name="description" required="true">
+                        </textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="colorInput">Kolor</label>
+                        <input type="text" class="form-control" id="colorInput"
+                            placeholder="Kolor produktu" name="color" required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="dimensionsInput">Wymiary</label>
+                        <select class="form-control" id="dimensionsInput" name="dimensions">
+                            <option value="-1">Wybierz wymiar</option>
+                            <option value="1">Zestaw</option>
+                            <option value="2">Figura 2D</option>
+                            <option value="3">Figura 3D</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="dimensions" style="display: none;">
+                        <label for="heightInput">Wysokość</label>
+                        <input type="number" step=".01" class="form-control" id="heightInput"
+                            placeholder="Wysokość" name="height" required="true" value="0">
+                        <label for="widthInput">Szerokość</label>
+                        <input type="number" step=".01" class="form-control" id="widthInput"
+                            placeholder="Szerokość" name="width" required="true" value="0">
+                        <label for="depthInput">Głębokość</label>
+                        <input type="number" step=".01" class="form-control" id="depthInput"
+                            placeholder="Głębokość" name="depth" required="true" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Zdjęcie</label>
+                        <input type="file" class="form-control" id="image" accept="image/png" name="productImage" required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">Cena</label>
+                        <input type="number" step=".01" class="form-control" id="price" placeholder="Cena"
+                            name="price" required="true">
+                    </div>
+                    <button type="submit" class="btn btn-dark form-bttn">Stwórz produkt</button>
+                </form>
+            </main>
+        </body>

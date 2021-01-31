@@ -5,11 +5,16 @@ var serverUtils = require('./lib/serverUtils');
 var cartUtils = require('./lib/cartUtils');
 var productUtils = require('./lib/productUtils');
 var userUtils = require('./lib/userUtils');
+var adminUtils = require('./lib/adminUtils');
 var cookieParser = require('cookie-parser');
 var bcrypt = require('bcrypt');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
 var Pool = require('pg').Pool
+var multer = require('multer');
+var upload = multer({dest: __dirname + '/views/tmp'});
+var path = require('path');
+var fs = require('fs');
 
 var pool = new Pool({
     user: 'student',
@@ -43,6 +48,7 @@ app.use(session({
 
 require('./routes/accountRoutes.js')(app, serverUtils, userUtils, cookieParser, bcrypt, pool);
 require('./routes/productRoutes.js')(app, serverUtils, cartUtils, productUtils, cookieParser, bcrypt, pool);
+require('./routes/adminRoutes')(app, serverUtils, userUtils, adminUtils, productUtils, upload, path, fs, cookieParser, bcrypt, pool);
 
 //Homepage
 app.get('/', (req, res) => {
