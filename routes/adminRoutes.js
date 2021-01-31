@@ -52,6 +52,106 @@ module.exports = function (app, serverUtils, userUtils, adminUtils, productUtils
         }
     });
 
+    app.get('/admin/orders/:mode', (req, res) => {
+        serverUtils.logConnection(`Accessing orders list `, req.connection.remoteAddress);
+
+        if (req.session.isAdmin !== 1) {
+            res.redirect('/admin');
+        }
+        else {
+            if (req.params.mode >= 0 && req.params.mode <= 3) {
+                userUtils.getOrders(req.params.mode, -1, pool, (error, result) => {
+                    if (error) {
+                        throw error;
+                    } else {
+                        res.render('admin/admin-orders.ejs', {orders: result.orders});
+                    }
+                });
+            }
+            else{
+                userUtils.getOrders(-1, -1, pool, (error, result) => {
+                    if (error) {
+                        throw error;
+                    } else {
+                        res.render('admin/admin-orders.ejs', {orders: result.orders});
+                    }
+                });
+            }
+        }
+    });
+
+    app.get('/admin/orders/change/:status/:orderId', (req, res) => {
+        serverUtils.logConnection(`Changing order ${req.params.orderId} status to ${req.params.status} `, req.connection.remoteAddress);
+
+        if (req.session.isAdmin !== 1) {
+            res.redirect('/admin');
+        }
+        else {
+            if (parseInt(req.params.status) === 2 || parseInt(req.params.status) === 3) {
+                adminUtils.changeOrderStatus(req.params.status, req.params.orderId, pool, (error, result) => {
+                    if(error){
+                        throw error;
+                    } else {
+                        res.redirect('/admin/orders/4');
+                    }
+                });
+            }
+            else{
+                res.redirect('/admin/orders/4');
+            }
+        }
+    });
+
+    app.get('/admin/users', (req, res) => {
+        serverUtils.logConnection(`Accessing users list `, req.connection.remoteAddress);
+
+        if (req.session.isAdmin !== 1) {
+            res.redirect('/admin');
+        }
+        else {
+            adminUtils.getUsers(pool, (error, result) => {
+                if (error) {
+                    throw error;
+                } else {
+                    res.render("admin/admin-users", { users: result });
+                }
+            });
+        }
+    });
+
+    app.get('/admin/products/create', (req, res) => {
+        serverUtils.logConnection(`Accessing product creation page `, req.connection.remoteAddress);
+
+        if (req.session.isAdmin !== 1) {
+            res.redirect('/admin');
+        }
+        else {
+            if (req.query.error) {
+                res.render("admin/admin-create-product", { error: "Nie udało się dodać nowego produktu." });
+            }
+            else {
+                res.render("admin/admin-create-product");
+            }
+        }
+    });
+
+    app.post('/admin/products/create', multer.single('productImage'), (req, res) => {
+        serverUtils.logConnection(`Creating product `, req.connection.remoteAddress);
+
+        if (req.session.isAdmin === -1) {
+            res.redirect('/admin');
+        }
+        else {
+            adminUtils.createProduct(req.body, req.file, pool, path, fs, (error, result) => {
+                if (result === -1) {
+                    res.redirect(`/admin/products/create?error=1`);
+                } else {
+                    res.redirect('/admin/products');
+                }
+            });
+        }
+    });
+
     app.get('/admin/products/delete/:id', (req, res) => {
         serverUtils.logConnection(`Deleting product with id ${req.params.id} `, req.connection.remoteAddress);
 
@@ -101,7 +201,7 @@ module.exports = function (app, serverUtils, userUtils, adminUtils, productUtils
                             res.redirect('/admin/products');
                         }
                         else {
-                            res.redirect(`/admin/products/${req.params.id}?error=1`, { error: "Nie udało się zaktualizować informacji o produkcie." });
+                            res.redirect(`/admin/products/${req.params.id}?error=1`);
                         }
                     });
                 });
@@ -118,7 +218,7 @@ module.exports = function (app, serverUtils, userUtils, adminUtils, productUtils
                     res.redirect('/admin/products');
                 }
                 else {
-                    res.redirect(`/admin/products/change/${req.params.id}`, { error: "Nie udało się zaktualizować informacji o produkcie." });
+                    res.redirect(`/admin/products/change/${req.params.id}`);
                 }
             });
         }
