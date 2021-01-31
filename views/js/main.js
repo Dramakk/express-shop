@@ -57,17 +57,8 @@ function searchBarControl() {
     if ($searchInput.length !== 0) {
         $searchInput = $searchInput[0];
 
-        $('input[name="searchString"]').on('focusin', (e) => {
-            getSearchResults($searchInput.value, $resultsList);
-        });
-
         $('input[name="searchString"]').on('keyup', (e) => {
             getSearchResults($searchInput.value, $resultsList);
-        });
-
-        $('input[name="searchString"]').on('focusout', (e) => {
-            $resultsList.empty();
-            $resultsList.hide();
         });
     }
 }
