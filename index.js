@@ -69,6 +69,12 @@ app.get('/', (req, res) => {
     })
 });
 
+app.get('/terms', (req, res) => {
+    serverUtils.logConnection(`Accessing terms page `, req.connection.remoteAddress);
+
+    res.render('terms', { isUserLogged: !req.session.guest });
+});
+
 app.get('/search', (req, res) => {
     serverUtils.logConnection(`Searching for items with querry: ${req.query.searchString} `, req.connection.remoteAddress);
 
