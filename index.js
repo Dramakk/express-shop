@@ -13,17 +13,16 @@ var session = require('express-session');
 var FileStore = require('session-file-store')(session);
 var Pool = require('pg').Pool
 var multer = require('multer');
-var upload = multer({dest: __dirname + '/views/tmp'});
+var upload = multer({ dest: __dirname + '/views/tmp' });
 var path = require('path');
 var fs = require('fs');
 
 var pool = new Pool({
-    user: 'student',
-    host: 'localhost',
-    database: 'sklep',
-    password: '',
-    port: 5432,
-})
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -59,7 +58,7 @@ app.get('/', (req, res) => {
         req.session.guest = 1;
         req.session.save();
     }
-    
+
     const NUM_POPULAR = 15
 
     serverUtils.getPopularProducts(NUM_POPULAR, pool, (error, results) => {
@@ -74,15 +73,15 @@ app.get('/search', (req, res) => {
     serverUtils.logConnection(`Searching for items with querry: ${req.query.searchString} `, req.connection.remoteAddress);
 
     productUtils.searchForProducts(req.query.searchString, pool, (error, result) => {
-        if(error){
+        if (error) {
             throw (error);
         }
-        else{
-            if(req.query.isAjax){
+        else {
+            if (req.query.isAjax) {
                 res.send(result);
             }
-            else{
-                res.render('search', {searchResult: {howManyItems: result.length, items: result}, isUserLogged: !req.session.guest});
+            else {
+                res.render('search', { searchResult: { howManyItems: result.length, items: result }, isUserLogged: !req.session.guest });
             }
         }
     });
