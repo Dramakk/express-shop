@@ -15,8 +15,11 @@
 * jquery
 * seesion-file-store
 
+## HEROKU:
+http://swiat-figur.herokuapp.com/
+
 ## Status
-Project is: _inprogress_
+Project is: _Completed_
 
 ## Authors
 [Michał Zobniów](https://github.com/Sahcim), [Dawid Żywczak](https://github.com/Dramakk)
